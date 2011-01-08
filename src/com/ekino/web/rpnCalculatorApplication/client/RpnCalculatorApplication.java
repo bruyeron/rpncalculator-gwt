@@ -64,6 +64,8 @@ public class RpnCalculatorApplication implements EntryPoint {
         commandsPanel.add(new CommandButton(new MinusCommand(), eventBus));
         commandsPanel.add(new CommandButton(new MultiplyCommand(), eventBus));
         commandsPanel.add(new CommandButton(new DivideCommand(), eventBus));
+        commandsPanel.add(new CommandButton(new SineCommand(), eventBus));
+        commandsPanel.add(new CommandButton(new CosineCommand(), eventBus));
         commandsPanel.add(new CommandButton(new DupCommand(), eventBus));
         commandsPanel.add(new CommandButton(new SwapCommand(), eventBus));
         commandsPanel.add(new CommandButton(new DropCommand(), eventBus));
@@ -72,6 +74,7 @@ public class RpnCalculatorApplication implements EntryPoint {
         eventBus.addHandler(StackStateChangeEvent.TYPE, new StackStateChangeEventHandler() {
             @Override
             public void onStackStateChange(StackStateChangeEvent event) {
+                display.setText(displayStack());
                 updateButtonsStates();
             }
         });
@@ -80,7 +83,6 @@ public class RpnCalculatorApplication implements EntryPoint {
             public void onCommand(CommandEvent event) {
                 try {
                     event.getCommand().execute(stack);
-                    display.setText(displayStack());
                     eventBus.fireEvent(new StackStateChangeEvent());
                 } catch (IllegalStateException e) {
                     System.out.println(e.getMessage());
@@ -105,7 +107,6 @@ public class RpnCalculatorApplication implements EntryPoint {
     private void inputBigDecimal() {
         stack.addFirst(new BigDecimal(input.getText()));
         input.setText("");
-        display.setText(displayStack());
         eventBus.fireEvent(new StackStateChangeEvent());
     }
 
