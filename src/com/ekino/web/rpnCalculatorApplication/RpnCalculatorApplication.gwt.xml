@@ -8,9 +8,4 @@
     <!-- Specify the app entry point class.                   -->
     <entry-point class='com.ekino.web.rpnCalculatorApplication.client.RpnCalculatorApplication'/>
 
-
-    <!-- Specify the app servlets. -->
-    <servlet path='/RpnCalculatorApplicationService'
-             class='com.ekino.web.rpnCalculatorApplication.server.RpnCalculatorApplicationServiceImpl'/>
-
 </module>
