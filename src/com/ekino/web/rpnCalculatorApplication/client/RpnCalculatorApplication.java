@@ -33,7 +33,7 @@ public class RpnCalculatorApplication implements EntryPoint {
      */
     public void onModuleLoad() {
         display.setReadOnly(true);
-        display.setCharacterWidth(30);
+        display.setCharacterWidth(35);
         display.setVisibleLines(8);
 
         enterButton.addClickHandler(new ClickHandler() {
@@ -55,6 +55,7 @@ public class RpnCalculatorApplication implements EntryPoint {
         mainPanel.add(display);
 
         final HorizontalPanel inputPanel = new HorizontalPanel();
+        input.setVisibleLength(35);
         inputPanel.add(input);
         inputPanel.add(enterButton);
         mainPanel.add(inputPanel);
