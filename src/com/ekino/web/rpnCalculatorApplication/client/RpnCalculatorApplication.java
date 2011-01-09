@@ -12,8 +12,10 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>
@@ -24,7 +26,7 @@ public class RpnCalculatorApplication implements EntryPoint {
     TextArea display = new TextArea();
     TextBox input = new TextBox();
     Button enterButton = new Button("Enter");
-    HorizontalPanel commandsPanel = new HorizontalPanel();
+    List<CommandButton> commandButtons = new ArrayList<CommandButton>();
 
     EventBus eventBus = new SimpleEventBus();
 
@@ -52,7 +54,24 @@ public class RpnCalculatorApplication implements EntryPoint {
 
         final VerticalPanel mainPanel = new VerticalPanel();
         mainPanel.add(new Label("RPN Calculator"));
-        mainPanel.add(display);
+
+        HorizontalPanel hp = new HorizontalPanel();
+        hp.add(display);
+        VerticalPanel vp = new VerticalPanel();
+        CommandButton cb = new CommandButton(new ClearCommand(), eventBus);
+        commandButtons.add(cb);
+        vp.add(cb);
+        cb = new CommandButton(new DropCommand(), eventBus);
+        commandButtons.add(cb);
+        vp.add(cb);
+        cb = new CommandButton(new SwapCommand(), eventBus);
+        commandButtons.add(cb);
+        vp.add(cb);
+        cb = new CommandButton(new DupCommand(), eventBus);
+        commandButtons.add(cb);
+        vp.add(cb);
+        hp.add(vp);
+        mainPanel.add(hp);
 
         final HorizontalPanel inputPanel = new HorizontalPanel();
         input.setVisibleLength(35);
@@ -60,15 +79,25 @@ public class RpnCalculatorApplication implements EntryPoint {
         inputPanel.add(enterButton);
         mainPanel.add(inputPanel);
 
-        commandsPanel.add(new CommandButton(new PlusCommand(), eventBus));
-        commandsPanel.add(new CommandButton(new MinusCommand(), eventBus));
-        commandsPanel.add(new CommandButton(new MultiplyCommand(), eventBus));
-        commandsPanel.add(new CommandButton(new DivideCommand(), eventBus));
-        commandsPanel.add(new CommandButton(new SineCommand(), eventBus));
-        commandsPanel.add(new CommandButton(new CosineCommand(), eventBus));
-        commandsPanel.add(new CommandButton(new DupCommand(), eventBus));
-        commandsPanel.add(new CommandButton(new SwapCommand(), eventBus));
-        commandsPanel.add(new CommandButton(new DropCommand(), eventBus));
+        HorizontalPanel commandsPanel = new HorizontalPanel();
+        cb = new CommandButton(new PlusCommand(), eventBus);
+        commandButtons.add(cb);
+        commandsPanel.add(cb);
+        cb = new CommandButton(new MinusCommand(), eventBus);
+        commandButtons.add(cb);
+        commandsPanel.add(cb);
+        cb = new CommandButton(new MultiplyCommand(), eventBus);
+        commandButtons.add(cb);
+        commandsPanel.add(cb);
+        cb = new CommandButton(new DivideCommand(), eventBus);
+        commandButtons.add(cb);
+        commandsPanel.add(cb);
+        cb = new CommandButton(new SineCommand(), eventBus);
+        commandButtons.add(cb);
+        commandsPanel.add(cb);
+        cb = new CommandButton(new CosineCommand(), eventBus);
+        commandButtons.add(cb);
+        commandsPanel.add(cb);
         mainPanel.add(commandsPanel);
 
         eventBus.addHandler(StackStateChangeEvent.TYPE, new StackStateChangeEventHandler() {
@@ -95,12 +124,8 @@ public class RpnCalculatorApplication implements EntryPoint {
 
     private void updateButtonsStates() {
         int stackDepth = stack.size();
-        for (Iterator<Widget> it = commandsPanel.iterator(); it.hasNext();) {
-            Widget w = it.next();
-            if (w instanceof CommandButton) {
-                CommandButton b = (CommandButton) w;
-                b.setEnabled(stackDepth >= b.getCommand().minimumStackDepth());
-            }
+        for (CommandButton b : commandButtons) {
+            b.setEnabled(stackDepth >= b.getCommand().minimumStackDepth());
         }
     }
 
