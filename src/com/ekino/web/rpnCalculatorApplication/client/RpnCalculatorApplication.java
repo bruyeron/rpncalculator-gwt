@@ -23,7 +23,8 @@ import java.util.List;
 public class RpnCalculatorApplication implements EntryPoint {
 
     LinkedList<BigDecimal> stack = new LinkedList<BigDecimal>();
-    TextArea display = new TextArea();
+    //TextArea display = new TextArea();
+    DisplayPanel display;
     TextBox input = new TextBox();
     Button enterButton = new Button("Enter");
     List<CommandButton> commandButtons = new ArrayList<CommandButton>();
@@ -34,9 +35,12 @@ public class RpnCalculatorApplication implements EntryPoint {
      * This is the entry point method.
      */
     public void onModuleLoad() {
+/*
         display.setReadOnly(true);
         display.setCharacterWidth(35);
         display.setVisibleLines(8);
+*/
+        this.display = new DisplayPanel(stack, eventBus);
 
         enterButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -103,7 +107,7 @@ public class RpnCalculatorApplication implements EntryPoint {
         eventBus.addHandler(StackStateChangeEvent.TYPE, new StackStateChangeEventHandler() {
             @Override
             public void onStackStateChange(StackStateChangeEvent event) {
-                display.setText(displayStack());
+                //display.setText(displayStack());
                 updateButtonsStates();
             }
         });
