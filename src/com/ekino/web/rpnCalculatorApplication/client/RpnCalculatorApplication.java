@@ -123,7 +123,7 @@ public class RpnCalculatorApplication implements EntryPoint {
             }
         });
 
-        RootPanel.get().add(mainPanel);
+        RootPanel.get("rpncalculator").add(mainPanel);
     }
 
     private void updateButtonsStates() {
