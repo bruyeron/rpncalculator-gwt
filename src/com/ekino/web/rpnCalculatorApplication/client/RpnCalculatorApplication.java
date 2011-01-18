@@ -57,7 +57,6 @@ public class RpnCalculatorApplication implements EntryPoint {
         });
 
         final VerticalPanel mainPanel = new VerticalPanel();
-        mainPanel.add(new Label("RPN Calculator"));
 
         HorizontalPanel hp = new HorizontalPanel();
         hp.add(display);
